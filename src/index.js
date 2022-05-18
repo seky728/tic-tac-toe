@@ -39,9 +39,21 @@ class Board extends React.Component {
 
 // moje komponenta - prostě ve stylu tlačítek (klasik button)
 class Square extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
+      value: null,
+    }
+  }
+
     render(){
         return(
-            <button className="square">{this.props.value}</button>
+            <button 
+            className="square" 
+            onClick={()=>{this.setState({value: 'X'})}} // nevím proč tohle teď funguje ale pro nefunguje s klasickou definicí funkce tedy:  onClick={function(){this.setState({value: 'X'})}}
+            >
+            {this.state.value}
+            </button>
         )
     }
 }
