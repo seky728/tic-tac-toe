@@ -4,9 +4,25 @@ import "./index.css"
 
 // prostě classa Board dědí z React.Component (proč? prostě to tak je)
 class Board extends React.Component {
+    constructor(props){
+      super(props)
+      this.state = {
+        squares: Array(9).fill(null)
+      }
+    }
+
+    handleClick(i){ // definovaná funkce pro classu Board
+      const squares = this.state.squares.slice()
+      squares[i] = 'X'
+      this.setState({squares: squares})
+    }
+
+
     // i je pojmenována jako props do které chodí nějaká hodnota, tady jen int
     renderSquare(i) {
-      return <Square value={i} />;
+      return <Square value={this.state.squares[i]} 
+        onClick={()=>this.handleClick(i)} //zavolám metodu handleClick - this - je klasicky ta vlastní classa... jako v JAVě
+      />
     }
     // nastyluji si hrací pole, zatím to jak to má vypadat
     render() {
@@ -40,7 +56,7 @@ class Board extends React.Component {
 // moje komponenta - prostě ve stylu tlačítek (klasik button)
 class Square extends React.Component{
   constructor(props){
-    super(props)
+    super(props) // nevim co znamená tento super?
     this.state = {
       value: null,
     }
@@ -50,9 +66,9 @@ class Square extends React.Component{
         return(
             <button 
             className="square" 
-            onClick={()=>{this.setState({value: 'X'})}} // nevím proč tohle teď funguje ale pro nefunguje s klasickou definicí funkce tedy:  onClick={function(){this.setState({value: 'X'})}}
+            onClick={()=>{this.props.onClick()}} // nechám onlick aby obstarala ta vlastní classa která tohle vyrenderuje
             >
-            {this.state.value}
+            {this.props.value}
             </button>
         )
     }
